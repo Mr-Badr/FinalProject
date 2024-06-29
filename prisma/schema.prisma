@@ -1,0 +1,297 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  // uncomment next line if you use Prisma <5.10
+  // directUrl = env("DATABASE_URL_UNPOOLED")
+}
+
+enum UserRole {
+  ADMIN
+  USER
+}
+
+//model User {
+//  id            String    @id @default(cuid())
+//  name          String?
+//  email         String?   @unique
+//  emailVerified DateTime? @map("email_verified")
+//  image         String?
+//  password      String?
+//  role UserRole @default(USER)
+//  accounts      Account[]
+//}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String  @map("user_id")
+  type              String
+  provider          String
+  providerAccountId String  @map("provider_account_id")
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model User {
+  id                String    @id @default(cuid())
+  firstName         String
+  lastName          String
+  username          String    @unique
+  email             String    @unique
+  email_verified_at DateTime?
+  password          String
+  image             String?
+  role              UserRole  @default(USER)
+  remember_token    String?
+  date_birth        DateTime?
+  phone             String?
+  address           String?
+  city              String?
+  is_active         Boolean   @default(true)
+  LastLogin         DateTime?
+  sexe              String?
+  created_at        DateTime  @default(now())
+  updated_at        DateTime  @updatedAt
+  deleted_at        DateTime?
+
+  teachers      Teacher[] // A User can have many Teachers
+  parents       Parent[] // A User can have many Parents
+  wallets       Wallet[] // A User can have many Wallets
+  accounts       Account[]
+  subscriptions Subscription[]
+  students      Student[]
+  userAnswers   UserAnswer[]
+}
+
+model Teacher {
+  id         String    @id @default(uuid())
+  user       User      @relation(fields: [user_id], references: [id])
+  user_id    String
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  subjects   Subject[]
+}
+
+model Parent {
+  id         String   @id @default(uuid())
+  user       User     @relation(fields: [user_id], references: [id])
+  user_id    String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Wallet {
+  id         String   @id @default(uuid())
+  user       User     @relation(fields: [user_id], references: [id])
+  user_id    String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Subscription {
+  id         String   @id @default(uuid())
+  plan       Plan     @relation(fields: [plan_id], references: [id])
+  plan_id    String
+  user       User     @relation(fields: [user_id], references: [id])
+  user_id    String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Plan {
+  id            String         @id @default(uuid())
+  created_at    DateTime       @default(now())
+  updated_at    DateTime       @updatedAt
+  subscriptions Subscription[]
+}
+
+model Student {
+  id         String   @id @default(uuid())
+  user       User     @relation(fields: [user_id], references: [id])
+  user_id    String
+  class      Class    @relation(fields: [class_id], references: [id])
+  class_id   String
+  firstName  String
+  lastName   String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Subject {
+  id         String   @id @default(uuid())
+  teacher    Teacher  @relation(fields: [teacher_id], references: [id])
+  teacher_id String
+  class      Class    @relation(fields: [class_id], references: [id])
+  class_id   String
+  course     Course   @relation(fields: [course_id], references: [id])
+  course_id  String
+  firstName  String
+  lastName   String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Class {
+  id          String    @id @default(uuid())
+  level       Level     @relation(fields: [level_id], references: [id])
+  level_id    String
+  title       String
+  slug        String
+  description String?
+  image       String?
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+  subjects    Subject[] // A Class can have many Subjects
+  students    Student[] // A Class can have many Students
+}
+
+model Level {
+  id          String   @id @default(uuid())
+  title       String
+  slug        String
+  description String?
+  image       String?
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  classes     Class[] // A Level can have many Classes
+}
+
+model Question {
+  id          String       @id @default(uuid())
+  quiz        Quiz         @relation(fields: [quiz_id], references: [id])
+  quiz_id     String
+  created_at  DateTime     @default(now())
+  updated_at  DateTime     @updatedAt
+  userAnswers UserAnswer[] // A Question can have many UserAnswers
+  answers     Answer[]
+}
+
+model UserAnswer {
+  id          String   @id @default(uuid())
+  question    Question @relation(fields: [question_id], references: [id])
+  question_id String
+  user        User     @relation(fields: [user_id], references: [id])
+  user_id     String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+}
+
+model Answer {
+  id          String   @id @default(uuid())
+  question    Question @relation(fields: [question_id], references: [id])
+  question_id String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+}
+
+model Quiz {
+  id         String     @id @default(uuid())
+  course     Course     @relation(fields: [course_id], references: [id])
+  course_id  String
+  questions  Question[] // A Quiz can have many Questions
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
+}
+
+model Course {
+  id          String     @id @default(uuid())
+  title       String
+  slug        String
+  description String?
+  image       String?
+  body        String?
+  created_at  DateTime   @default(now())
+  updated_at  DateTime   @updatedAt
+  subjects    Subject[] // A Course can have many Subjects
+  quizzes     Quiz[] // A Course can have many Quizzes
+  lessons     Lesson[] // A Course can have many Lessons
+  exercices   Exercice[] // A Course can have many Exercices
+  videos      Video[] // A Course can have many Videos
+  files       File[] // A Course can have many Files
+  lives       Live[] // A Course can have many Lives
+}
+
+model Lesson {
+  id         String   @id @default(uuid())
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  course     Course   @relation(fields: [course_id], references: [id])
+  course_id  String
+}
+
+model Exercice {
+  id                String             @id @default(uuid())
+  created_at        DateTime           @default(now())
+  updated_at        DateTime           @updatedAt
+  course            Course             @relation(fields: [course_id], references: [id])
+  course_id         String
+  exerciceSolutions ExerciceSolution[]
+}
+
+model ExerciceSolution {
+  id          String   @id @default(uuid())
+  exercice    Exercice @relation(fields: [exercice_id], references: [id])
+  exercice_id String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+}
+
+model Video {
+  id         String   @id @default(uuid())
+  course     Course   @relation(fields: [course_id], references: [id])
+  course_id  String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model File {
+  id         String   @id @default(uuid())
+  course     Course   @relation(fields: [course_id], references: [id])
+  course_id  String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Live {
+  id          String       @id @default(uuid())
+  course      Course       @relation(fields: [course_id], references: [id])
+  course_id   String
+  created_at  DateTime     @default(now())
+  updated_at  DateTime     @updatedAt
+  liveStreams LiveStream[] // A Live can have many LiveStreams
+}
+
+model LiveStream {
+  id                     String                  @id @default(uuid())
+  live                   Live                    @relation(fields: [live_id], references: [id])
+  live_id                String
+  liveStreamParticipants LiveStreamParticipant[] // A LiveStream can have many LiveStreamParticipants
+  created_at             DateTime                @default(now())
+  updated_at             DateTime                @updatedAt
+}
+
+model LiveStreamParticipant {
+  id             String     @id @default(uuid())
+  liveStream     LiveStream @relation(fields: [live_stream_id], references: [id])
+  live_stream_id String
+  created_at     DateTime   @default(now())
+  updated_at     DateTime   @updatedAt
+}

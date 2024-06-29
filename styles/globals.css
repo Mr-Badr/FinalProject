@@ -1,0 +1,254 @@
+body {
+  margin-right: 0;
+  overflow-x: hidden;
+}
+
+.editor-icon {
+  background: white;
+  border: 0px;
+  color: rgb(63, 63, 63);
+}
+
+.editor-icon:hover {
+  background: #eee;
+}
+
+.editor-top {
+  border: solid rgb(182, 182, 182) 1px;
+  width: 370px;
+  border-radius: 5px;
+}
+
+.editable-element:hover,
+.editable-element:focus {
+  outline: none;
+  border: solid cyan 3px;
+  border-radius: 3px;
+}
+
+.size-buttons {
+  background-color: white;
+  border: 0px;
+}
+
+#font-size-input input {
+  border: 0px;
+}
+
+#font-size-input input:focus {
+  border: 0px;
+  outline: none;
+}
+
+#my-editor {
+  cursor: move;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-moz-number-spin-box {
+  display: none;
+}
+
+.article:hover .edit-image {
+  visibility: visible !important;
+}
+
+.edit-image {
+  cursor: pointer;
+}
+
+#edit-page-navbar {
+  height: 80px;
+  background: #343c50;
+}
+.editable-page-section:hover {
+  border: solid #007fff !important;
+}
+@media screen and (max-width: 991px) {
+  .editable-page-section:hover {
+    border: solid #007fff !important;
+  }
+}
+@media screen and (max-width: 500px) {
+  .editable-page-section:hover {
+    border: solid #007fff !important;
+  }
+}
+.editable-page-section {
+  position: relative;
+}
+.sec-header:hover {
+  margin-top: 130px;
+}
+@media screen and (max-width: 991px) {
+  .sec-header:hover {
+    margin-top: 150px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .sec-header:hover {
+    margin-top: 150px;
+  }
+}
+
+.editable-page-section {
+  position: relative;
+}
+
+.plus-icon {
+  background-color: rgb(0, 177, 103);
+  bottom: -23px;
+  cursor: pointer;
+}
+
+.prv-design-btn,
+.nxt-design-btn {
+  background-color: white;
+  border: none;
+  width: 170px;
+}
+
+.prv-design-btn {
+  left: 20%;
+}
+
+.nxt-design-btn {
+  right: 20%;
+}
+
+#user-editable-page {
+  padding-top: 80px;
+}
+
+.toolbar {
+  width: 190px; /* Adjust the width as needed */
+  /* Add some padding around the toolbar */
+  z-index: 50; /* Ensure the toolbar appears above other elements */
+  right: 35px;
+  padding-top: 8px;
+}
+
+.toolbar-container {
+  width: 100%;
+  padding: 5px;
+}
+
+.toolbar-section {
+  margin-bottom: 3px; /* Add some spacing between toolbar sections */
+}
+
+.toolbar-btn {
+  transition: background-color 0.3s ease;
+}
+
+.toolbar-btn:hover {
+  background-color: #274786;
+}
+
+.rounded-button {
+  background: #007fff;
+  width: 2rem;
+  flex: center;
+  border-radius: 20px;
+  height: 1.5rem;
+}
+.icon-sm {
+  font-size: 14px; /* Adjust the font size as needed */
+  color: #fff;
+}
+
+.prv-design-container {
+  position: absolute;
+  bottom: -10px;
+  left: 40%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+.prv-design-btn {
+  flex: center;
+}
+.add-section-btn {
+  margin-top: -20px;
+  background: #007fff;
+}
+
+.add-section-btn2 {
+  bottom: -16px;
+  background: #007fff;
+}
+
+.nxt-design-container {
+  position: relative;
+  bottom: -10px;
+  left: 57.5%;
+  transform: translateX(50%);
+  z-index: 1;
+}
+
+.tablew-full {
+  margin-top: 72px;
+}
+
+svg.feather-shopping-cart,
+svg.feather-settings {
+  fill: currentColor;
+}
+
+.desktopContent {
+  background-color: #f2f2f2;
+  padding: 20px;
+  font-size: 16px;
+  color: #333;
+}
+.content.fullscreenView {
+  position: relative;
+  z-index: 1;
+  overflow-y: scroll;
+  max-height: 100vh;
+  margin-left: 0;
+}
+
+.hide-topbar .topbar {
+  display: none;
+}
+
+.arrowContainer {
+  position: fixed;
+  top: 10px;
+  right: 25px;
+  transform: rotate(310deg);
+  background-color: rgba(255, 255, 255, 0.9);
+  color: black;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 100;
+}
+
+.arrowContainer i {
+  transform: rotate(-45deg);
+}
+
+.arrowContainer:hover {
+  background-color: #f2f2f2;
+}
+.editable-image-container {
+  position: relative;
+}
+.defaultscroll {
+  margin-top: 0;
+}
