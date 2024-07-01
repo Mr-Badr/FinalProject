@@ -40,7 +40,7 @@ function LinkedAccounts() {
 									يمكنك ربط حساباتك الاجتماعية بحسابات المهووسين الخاصة بك وكذلك الوصول إلى سجل الحسابات المرتبطة وإدارة حساباتك في هذه الأقسام.									</p>
 								</div>
 								{/*  Card body  */}
-								<div className="card-body">
+								<div className="card-body tajawal-bold">
 									<div className="mb-5 d-md-flex">
 										{/*  facebook  */}
 										<div>
